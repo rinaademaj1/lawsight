@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EnerLex – Law & Energy Advisory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #d5aa6d;
+  --gold-hover: #9b6f45;
+  --dark: #191514;
+  --dark2: #111;
+  --white: #ffffff;
+  --text-light: rgba(255,255,255,0.85);
+  --text-muted: #999999;
+  --border: #3d3b3b;
+}
+
+html, body {
+  width: 100%; overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: var(--dark);
+  color: var(--white);
+}
+
+/* ─── HEADER ─── */
+#header-wrap {
+  position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+  transition: background 0.4s, padding 0.4s, box-shadow 0.4s;
+  padding: 0;
+}
+#header-wrap.transparent { background: transparent; }
+#header-wrap.scrolled {
+  background: rgba(20,15,13,0.97);
+  box-shadow: 0 2px 30px rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+}
+#header-main {
+  padding: 0 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 80px; transition: height 0.4s;
+  gap: 20px;
+}
+#header-wrap.scrolled #header-main { height: 65px; }
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 700;
+  color: var(--white); text-decoration: none; letter-spacing: 2px;
+}
+.logo img { height: 48px; width: auto; object-fit: contain; display: block; }
+.logo .accent { color: var(--gold); }
+.logo-tagline {
+  display: block; font-family: 'Poppins', sans-serif;
+  font-size: 0.52rem; font-weight: 400; letter-spacing: 4px;
+  text-transform: uppercase; color: rgba(255,255,255,0.5);
+  margin-top: -2px;
+}
+
+.primary-menu {
+  list-style: none; display: flex; gap: 36px; align-items: center;
+}
+.primary-menu a {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.8);
+  text-decoration: none; transition: color 0.3s;
+}
+.primary-menu a:hover { color: var(--gold); }
+
+/* ─── HEADER ACTIONS ─── */
+.header-actions {
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+
+/* LANG SWITCHER */
+.lang-switcher { position: relative; }
+.lang-btn {
+  display: flex; align-items: center; gap: 7px;
+  height: 40px; padding: 0 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.85);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.73rem; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer; transition: all 0.25s; user-select: none;
+}
+.lang-btn:hover,
+.lang-switcher.open .lang-btn {
+  border-color: var(--gold); color: var(--gold);
+  background: rgba(213,170,109,0.08);
+}
+.lang-arrow { transition: transform 0.25s; opacity: 0.7; flex-shrink: 0; }
+.lang-switcher.open .lang-arrow { transform: rotate(180deg); }
+
+.lang-dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  width: 170px; background: #0f0c0b;
+  border: 1px solid rgba(213,170,109,0.3);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+  opacity: 0; pointer-events: none;
+  transform: translateY(-6px) scaleY(0.95);
+  transform-origin: top right;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 100;
+}
+.lang-switcher.open .lang-dropdown {
+  opacity: 1; pointer-events: auto;
+  transform: translateY(0) scaleY(1);
+}
+.lang-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.77rem; font-weight: 500;
+  color: rgba(255,255,255,0.65);
+  text-decoration: none; cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+}
+.lang-option:last-child { border-bottom: none; }
+.lang-option::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--gold);
+  transform: scaleY(0); transition: transform 0.2s;
+}
+.lang-option:hover { background: rgba(213,170,109,0.07); color: var(--white); }
+.lang-option:hover::before,
+.lang-option.active::before { transform: scaleY(1); }
+.lang-option.active { color: var(--gold); background: rgba(213,170,109,0.05); }
+.opt-check { margin-left: auto; font-size: 0.65rem; color: var(--gold); opacity: 0; }
+.lang-option.active .opt-check { opacity: 1; }
+
+/* VH LEX */
+.btn-vhlex {
+  display: flex; align-items: center;
+  height: 40px; padding: 0 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.73rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  color: var(--gold); border: 1px solid var(--gold);
+  background: transparent; transition: all 0.25s;
+  position: relative; overflow: hidden;
+}
+.btn-vhlex::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--gold); transform: translateX(-101%);
+  transition: transform 0.25s; z-index: 0;
+}
+.btn-vhlex span { position: relative; z-index: 1; }
+.btn-vhlex:hover { color: var(--dark); }
+.btn-vhlex:hover::before { transform: translateX(0); }
+
+.btn-consult {
+  display: flex; align-items: center;
+  height: 40px; padding: 0 22px;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  background: var(--gold); color: var(--dark);
+  transition: background 0.3s, color 0.3s;
+}
+.btn-consult:hover { background: var(--gold-hover); color: var(--white); }
+
+@media (max-width: 768px) {
+  .btn-vhlex { display: none; }
+  .lang-btn span:last-of-type { display: none; }
+}
+
+/* ─── SLIDER / HERO ─── */
+.rev-slider-wrap {
+  position: relative; width: 100%; height: 100vh;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+.slide.active { opacity: 1; pointer-events: auto; }
+
+.slide-bg {
+  position: absolute; inset: 0;
+  transform: scale(1.06);
+  animation: none;
+  overflow: hidden;
+}
+.slide-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+}
+.slide.active .slide-bg {
+  animation: kenBurns 14s ease-out forwards;
+}
+@keyframes kenBurns {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1.00); }
+}
+
+.slide-overlay {
+  position: absolute; inset: 0;
+  background: rgba(15,10,8,0.62);
+}
+.slide-overlay-left {
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, rgba(15,10,8,0.82) 0%, rgba(15,10,8,0.5) 55%, rgba(15,10,8,0.15) 100%);
+}
+.slide-overlay-center {
+  position: absolute; inset: 0;
+  background: rgba(15,10,8,0.65);
+}
+.slide-overlay-right {
+  position: absolute; inset: 0;
+  background: linear-gradient(260deg, rgba(15,10,8,0.82) 0%, rgba(15,10,8,0.5) 55%, rgba(15,10,8,0.15) 100%);
+}
+
+.slide-group {
+  position: absolute; z-index: 5;
+  display: flex; flex-direction: column; gap: 0;
+}
+.slide-group.align-left {
+  left: 60px; right: auto;
+  top: 50%; transform: translateY(calc(-50% + 40px));
+  align-items: flex-start; text-align: left;
+  max-width: 760px;
+}
+.slide-group.align-center {
+  left: 50%; transform: translate(-50%, calc(-50% + 40px));
+  top: 50%;
+  align-items: center; text-align: center;
+  max-width: 800px;
+}
+.slide-group.align-right {
+  right: 60px; left: auto;
+  top: 50%; transform: translateY(calc(-50% + 40px));
+  align-items: flex-end; text-align: right;
+  max-width: 760px;
+}
+
+.layer-eyebrow {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem; font-weight: 400;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: var(--white); margin-bottom: 18px;
+  opacity: 0; transform: translateY(50px);
+}
+.layer-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 600; line-height: 1.18;
+  color: var(--white); margin-bottom: 32px;
+  opacity: 0; transform: translateY(50px);
+}
+.layer-title cite {
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
+  color: var(--gold); font-weight: 400;
+}
+.layer-btn {
+  opacity: 0; transform: translateX(50px);
+}
+.btn {
+  display: inline-block; text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase;
+  background: var(--gold); color: var(--dark);
+  padding: 14px 38px;
+  border: 2px solid var(--gold);
+  transition: all 0.3s; cursor: pointer;
+}
+.btn:hover { background: transparent; color: var(--gold); }
+
+.slide.active .layer-eyebrow { animation: layerUp 0.7s 0.5s ease forwards; }
+.slide.active .layer-title { animation: layerUp 0.8s 0.9s ease forwards; }
+.slide.active .layer-btn { animation: layerRight 0.7s 1.3s ease forwards; }
+.slide.active .align-right .layer-btn { animation: layerLeft 0.7s 1.3s ease forwards; }
+.slide.active .align-center .layer-btn { animation: layerUp 0.7s 1.3s ease forwards; }
+@keyframes layerUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes layerRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes layerLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.slider-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 20; width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s;
+  color: white; font-size: 1.1rem;
+}
+.slider-arrow:hover { background: var(--gold); border-color: var(--gold); }
+.slider-arrow.prev { left: 36px; }
+.slider-arrow.next { right: 36px; }
+
+.slider-dots {
+  position: absolute; bottom: 32px; left: 50%;
+  transform: translateX(-50%); z-index: 20;
+  display: flex; gap: 10px;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.35); cursor: pointer;
+  transition: all 0.3s;
+}
+.dot.active { background: var(--gold); width: 28px; border-radius: 4px; }
+
+/* ─── FANCYBOX ─── */
+.fancybox-section {
+  background: var(--dark);
+  background-image: url('img/foto9.jpg');
+  background-size: cover; background-position: center;
+  position: relative;
+}
+.fancybox-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(18,13,11,0.9);
+}
+.fancybox-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: repeat(3,1fr);
+  max-width: 1200px; margin: 0 auto; padding: 0 60px;
+}
+.fancybox-item {
+  padding: 52px 40px;
+  border-right: 1px solid var(--border);
+  display: flex; gap: 24px; align-items: flex-start;
+  transition: background 0.3s;
+}
+.fancybox-item:last-child { border-right: none; }
+.fancybox-item:hover { background: rgba(213,170,109,0.06); }
+.fancybox-icon {
+  width: 60px; height: 60px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-hover) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+}
+.fancybox-content h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem; font-weight: 600; color: var(--white);
+  margin-bottom: 10px; line-height: 1.4;
+}
+.fancybox-content p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.82rem; line-height: 1.75;
+  color: var(--text-muted);
+}
+
+/* ─── SERVICES SECTION ─── */
+.services-section {
+  padding: 110px 60px 120px;
+  background-image: url('img/foto10.jpg');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+}
+.services-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(0,0,0,0.85);
+}
+.services-section .inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+
+.section-heading { text-align: center; margin-bottom: 60px; }
+.section-heading .sub {
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  margin-bottom: 14px;
+}
+.section-heading .sub::before,
+.section-heading .sub::after {
+  content: ''; display: block; width: 30px; height: 1px; background: var(--gold);
+}
+.section-heading h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700; color: var(--white); line-height: 1.3;
+}
+.section-heading h2 cite { font-style: italic; color: var(--gold); }
+.h-gap { display: flex; justify-content: center; gap: 5px; margin-top: 20px; }
+.h-gap i { display: block; height: 3px; border-radius: 2px; background: var(--gold); }
+.h-gap i:nth-child(1) { width: 28px; }
+.h-gap i:nth-child(2) { width: 8px; }
+.h-gap i:nth-child(3) { width: 5px; }
+.h-gap i:nth-child(4) { width: 3px; }
+
+.services-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px; background: rgba(61,59,59,0.4);
+}
+.service-card {
+  background: var(--dark);
+  border: 1px solid var(--border);
+  padding: 40px 34px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.3s;
+  cursor: default;
+}
+.service-card:hover { border-color: var(--gold); }
+.service-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 3px; background: var(--gold);
+  transition: width 0.4s ease;
+}
+.service-card:hover::after { width: 100%; }
+.service-card-hover {
+  position: absolute; inset: 0; opacity: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+.service-card-hover img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+}
+.service-card-hover::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(0,0,0,0.72);
+}
+.service-card:hover .service-card-hover { opacity: 1; }
+.service-card-body { position: relative; z-index: 1; }
+.service-icon {
+  font-size: 2.2rem; margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-hover));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.service-card h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem; font-weight: 600; color: var(--white);
+  margin-bottom: 12px; line-height: 1.4;
+}
+.service-card p { font-size: 0.82rem; line-height: 1.8; color: var(--text-muted); }
+.service-card-cta {
+  display: inline-block; margin-top: 20px;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold);
+  text-decoration: none; opacity: 0;
+  transition: opacity 0.3s;
+}
+.service-card:hover .service-card-cta { opacity: 1; }
+
+/* ─── STATS ─── */
+.stats-section {
+  padding: 100px 60px;
+  background: #f5f0ea;
+  position: relative;
+}
+.stats-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(213,170,109,0.04);
+}
+.stats-section .inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+.stats-header {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px; margin-bottom: 60px; align-items: start;
+}
+.stats-heading .sub {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+}
+.stats-heading h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 700; color: var(--dark); line-height: 1.3;
+}
+.stats-heading h2 cite { font-style: italic; color: var(--gold-hover); }
+.stats-heading .h-gap { justify-content: flex-start; }
+.stats-text { font-size: 0.86rem; line-height: 1.8; color: #555; padding-top: 8px; }
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+.stat-item {
+  padding: 40px 30px;
+  border-right: 1px solid rgba(0,0,0,0.1);
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem; font-weight: 400;
+  line-height: 1; margin-bottom: 8px;
+}
+.stat-item:nth-child(odd) .stat-num { color: var(--gold-hover); }
+.stat-item:nth-child(even) .stat-num { color: var(--dark); }
+.stat-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #888; }
+
+/* ─── CONTACT ─── */
+.contact-section {
+  padding: 110px 60px 120px;
+  background-image: url('img/foto12.jpg');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+}
+.contact-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(0,0,0,0.82);
+}
+.contact-section .inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+.contact-grid {
+  display: grid; grid-template-columns: 5fr 4fr 3fr;
+  gap: 60px; margin-bottom: 60px; align-items: start;
+}
+.contact-sub {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+}
+.contact-h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  font-weight: 700; color: var(--white); line-height: 1.35;
+}
+.contact-h2 cite { font-style: italic; color: var(--gold); }
+.contact-info-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
+.contact-info-icon {
+  width: 42px; height: 42px; flex-shrink: 0;
+  background: transparent; border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 0.9rem;
+}
+.contact-info-text { font-size: 0.84rem; line-height: 1.7; color: rgba(255,255,255,0.75); }
+.contact-form { display: flex; flex-direction: column; gap: 16px; grid-column: 1 / -1; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.form-input {
+  width: 100%; padding: 14px 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white); font-family: 'Poppins', sans-serif;
+  font-size: 0.84rem; outline: none;
+  transition: border-color 0.3s;
+}
+.form-input:focus { border-color: var(--gold); }
+.form-input::placeholder { color: rgba(255,255,255,0.35); }
+.form-textarea { width: 100%; resize: vertical; min-height: 130px; }
+.btn-submit {
+  align-self: flex-start;
+  background: var(--gold); color: var(--dark);
+  border: 2px solid var(--gold);
+  padding: 14px 46px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-submit:hover { background: transparent; color: var(--gold); }
+
+/* ─── FOOTER ─── */
+footer { background: #0d0b0a; border-top: 1px solid rgba(213,170,109,0.15); }
+.footer-top {
+  padding: 70px 60px 50px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 50px; max-width: 1400px; margin: 0 auto;
+}
+.footer-widget-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--white);
+  margin-bottom: 22px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.footer-logo-link {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem; font-weight: 700; color: var(--white);
+  text-decoration: none; letter-spacing: 2px;
+  display: block; margin-bottom: 18px;
+}
+.footer-logo-link span { color: var(--gold); }
+.footer-desc { font-size: 0.82rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 24px; }
+.footer-contact-list { list-style: none; }
+.footer-contact-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;
+}
+.footer-contact-list li span:first-child { color: var(--gold); font-size: 0.85rem; flex-shrink: 0; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 10px; }
+.footer-links a {
+  font-size: 0.82rem; color: var(--text-muted); text-decoration: none;
+  transition: color 0.3s; display: flex; align-items: center; gap: 8px;
+}
+.footer-links a::before { content: '›'; color: var(--gold); font-size: 1rem; line-height: 1; }
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding: 22px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1400px; margin: 0 auto;
+}
+.footer-copy { font-size: 0.78rem; color: #555; }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a {
+  width: 34px; height: 34px; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); text-decoration: none; font-size: 0.8rem;
+  transition: all 0.3s;
+}
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ─── SCROLL TO TOP ─── */
+.scroll-top {
+  position: fixed; bottom: 30px; right: 30px; z-index: 999;
+  width: 42px; height: 42px;
+  background: var(--gold); color: var(--dark);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; text-decoration: none;
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.3s; pointer-events: none;
+}
+.scroll-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  #header-main { padding: 0 30px; }
+  .primary-menu { gap: 20px; }
+  .services-grid { grid-template-columns: repeat(2,1fr); }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .stats-header { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .primary-menu { display: none; }
+  .slide-group.align-left,
+  .slide-group.align-center,
+  .slide-group.align-right {
+    left: 20px; right: 20px; text-align: left; align-items: flex-start;
+    transform: translateY(-50%);
+  }
+  .fancybox-inner { grid-template-columns: 1fr; padding: 0 20px; }
+  .fancybox-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .services-section, .stats-section, .contact-section { padding: 70px 20px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stats-header { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; padding: 50px 20px; }
+  .footer-bottom { flex-direction: column; gap: 16px; padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div id="header-wrap" class="transparent">
+    <div id="header-main">
+
+      <a class="logo" href="#">
+        <img src="img/enterlex.png" alt="EnerLex Logo">
+      </a>
+
+      <nav>
+        <ul class="primary-menu">
+          <li><a href="#section-home" data-i18n="nav_home">Home</a></li>
+          <li><a href="#section-services" data-i18n="nav_services">Services</a></li>
+          <li><a href="#section-stats" data-i18n="nav_about">About</a></li>
+          <li><a href="#section-contact" data-i18n="nav_contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+
+        <div class="lang-switcher" id="langSwitcher">
+          <button class="lang-btn" id="langBtn">
+            <span id="activeFlag">ANG</span>
+            <span id="activeLang">EN</span>
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="10" height="10" class="lang-arrow"><polyline points="2,4 6,8 10,4"/></svg>
+          </button>
+          <div class="lang-dropdown">
+            <a class="lang-option" href="#" data-flag="🇦🇱" data-code="SQ">
+              <span>🇦🇱</span> Shqip <span class="opt-check">✔</span>
+            </a>
+            <a class="lang-option active" href="#" data-flag="🇬🇧" data-code="EN">
+              <span>EN</span> English <span class="opt-check">✔</span>
+            </a>
+          </div>
+        </div>
+
+        <a href="VHlex.html" class="btn-vhlex"><span>VHLex</span></a>
+
+        <a href="#section-contact" class="btn-consult" data-i18n="btn_consult">Konsulto Tani</a>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── REVOLUTION SLIDER (3 slides) ─── -->
+<section id="section-home" class="rev-slider-wrap">
+
+  <!-- SLIDE 1 — LEFT aligned -->
+  <div class="slide active" id="slide-1">
+    <div class="slide-bg"><img src="img/foto1.jpg" alt=""></div>
+    <div class="slide-overlay-left"></div>
+    <div class="slide-group align-left">
+      <div class="layer-eyebrow" data-i18n="slide1_eyebrow">Welcome to EnerLex</div>
+      <h1 class="layer-title" data-i18n-html="slide1_title">
+        We develop end-to-end<br/>
+        legal and operational<br/>
+        <cite>frameworks</cite>
+      </h1>
+      <div class="layer-btn">
+        <a href="#section-contact" class="btn" data-i18n="btn_contact">Contact Us Today</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — CENTER aligned -->
+  <div class="slide" id="slide-2">
+    <div class="slide-bg"><img src="img/foto2.jpg" alt=""></div>
+    <div class="slide-overlay-center"></div>
+    <div class="slide-group align-center">
+      <div class="layer-eyebrow" data-i18n="slide2_eyebrow">Energy & Law Expertise</div>
+      <h1 class="layer-title" data-i18n-html="slide2_title">
+        Bridging financial requirements<br/>
+        with <cite>legal feasibility</cite>
+      </h1>
+      <div class="layer-btn">
+        <a href="#section-contact" class="btn" data-i18n="btn_contact">Contact Us Today</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — RIGHT aligned -->
+  <div class="slide" id="slide-3">
+    <div class="slide-bg"><img src="img/foto3.jpg" alt=""></div>
+    <div class="slide-overlay-right"></div>
+    <div class="slide-group align-right">
+      <div class="layer-eyebrow" data-i18n="slide3_eyebrow">23+ Years of Experience</div>
+      <h1 class="layer-title" data-i18n-html="slide3_title">
+        Negotiating complex<br/>
+        international <cite>PPA</cite><br/>
+        contracts
+      </h1>
+      <div class="layer-btn">
+        <a href="#section-contact" class="btn" data-i18n="btn_contact">Contact Us Today</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-arrow prev" id="prev-btn">&#8249;</div>
+  <div class="slider-arrow next" id="next-btn">&#8250;</div>
+
+  <div class="slider-dots">
+    <div class="dot active" data-index="0"></div>
+    <div class="dot" data-index="1"></div>
+    <div class="dot" data-index="2"></div>
+  </div>
+</section>
+
+<!-- ─── FANCYBOX — 3 pillars ─── -->
+<section class="fancybox-section">
+  <div class="fancybox-inner">
+    <div class="fancybox-item">
+      <div class="fancybox-icon">⚖️</div>
+      <div class="fancybox-content">
+        <h3 data-i18n="pillar1_title">Regulatory Design</h3>
+        <p data-i18n="pillar1_text">We develop end-to-end legal and operational frameworks, drafting primary and secondary legislation to ensure energy projects are future-proof and built for the long term.</p>
+      </div>
+    </div>
+    <div class="fancybox-item">
+      <div class="fancybox-icon">🤝</div>
+      <div class="fancybox-content">
+        <h3 data-i18n="pillar2_title">Commercial &amp; Legal Navigation</h3>
+        <p data-i18n="pillar2_text">We bridge the gap between financial requirements and legal feasibility through precise negotiation of complex international agreements and large-scale infrastructure contracts.</p>
+      </div>
+    </div>
+    <div class="fancybox-item">
+      <div class="fancybox-icon">⚡</div>
+      <div class="fancybox-content">
+        <h3 data-i18n="pillar3_title">Law &amp; Energy Innovation</h3>
+        <p data-i18n="pillar3_text">By merging deep regulatory knowledge with power market expertise, we eliminate the friction between industrial progress and compliance, creating a seamless path for technical operations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section id="section-services" class="services-section">
+  <div class="inner">
+    <div class="section-heading">
+      <div class="sub" data-i18n="services_sub">Our Services</div>
+      <h2 data-i18n-html="services_title">Strategic Advisory &amp; <cite>Legal Excellence</cite></h2>
+      <div class="h-gap"><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-card-hover"><img src="img/foto4.jpg" alt=""></div>
+        <div class="service-card-body">
+          <div class="service-icon">📋</div>
+          <h3 data-i18n="svc1_title">Drafting of Agreements &amp; Complex Commercial Contracts</h3>
+          <p data-i18n="svc1_text">Specializing in the architectural design and negotiation of high-stakes commercial agreements, ranging from international power purchase agreements (PPAs) to intricate inter-TSO operational arrangements. We ensure that every contract is legally resilient, commercially viable, and strategically aligned with the objectives of investors and business entities.</p>
+          <a href="#section-contact" class="service-card-cta" data-i18n="learn_more">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-card-hover"><img src="img/foto5.jpg" alt=""></div>
+        <div class="service-card-body">
+          <div class="service-icon">🔍</div>
+          <h3 data-i18n="svc2_title">Comprehensive Legal Due Diligence &amp; Risk Assessment</h3>
+          <p data-i18n="svc2_text">Conducting comprehensive legal due diligence for large-scale energy infrastructure, institutional restructuring, and cross-border projects. We leverage over 23 years of experience to identify regulatory and operational risks, ensuring projects meet the stringent requirements of international financing institutions (KfW, EBRD, World Bank) and regional regulatory bodies.</p>
+          <a href="#section-contact" class="service-card-cta" data-i18n="learn_more">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-card-hover"><img src="img/foto6.jpg" alt=""></div>
+        <div class="service-card-body">
+          <div class="service-icon">⚖️</div>
+          <h3 data-i18n="svc3_title">Strategic Legal Analysis &amp; Legislative Drafting</h3>
+          <p data-i18n="svc3_text">Providing expert legal analysis on complex regulatory issues and disputes. We specialize in the conceptualization and drafting of primary and secondary legislation.</p>
+          <a href="#section-contact" class="service-card-cta" data-i18n="learn_more">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-card-hover"><img src="img/foto7.jpg" alt=""></div>
+        <div class="service-card-body">
+          <div class="service-icon">📊</div>
+          <h3 data-i18n="svc4_title">Market Intelligence &amp; Feasibility Research</h3>
+          <p data-i18n="svc4_text">Conducting specialized legal research, feasibility studies, and market evaluations within the energy and commercial sectors. We identify operational risks and strategic opportunities, with a particular focus on electricity market integration and the business environment for international enterprises.</p>
+          <a href="#section-contact" class="service-card-cta" data-i18n="learn_more">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-card-hover"><img src="img/foto8.jpg" alt=""></div>
+        <div class="service-card-body">
+          <div class="service-icon">🏛️</div>
+          <h3 data-i18n="svc5_title">Corporate Governance &amp; Managerial Consulting</h3>
+          <p data-i18n="svc5_text">Offering specialized managerial consulting and professional training focused on institutional integrity, ethics, and corporate governance. We serve as authorized representatives for entities during their establishment and registration, implementing international principles (such as OECD standards) to ensure seamless and ethical business activity.</p>
+          <a href="#section-contact" class="service-card-cta" data-i18n="learn_more">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="service-card" style="background: rgba(213,170,109,0.06); display:flex; align-items:center; justify-content:center; text-align:center; padding: 50px 34px;">
+        <div class="service-card-body">
+          <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:400; color:var(--gold); margin-bottom:12px; font-style:italic;">23+</div>
+          <div style="font-size:0.7rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#777; margin-bottom:30px;" data-i18n="years_exp">Years of Experience</div>
+          <a href="#section-contact" class="btn" style="font-size:0.7rem; padding:12px 28px;" data-i18n="btn_consult_now">Consult Now</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS ─── -->
+<section id="section-stats" class="stats-section">
+  <div class="inner">
+    <div class="stats-header">
+      <div class="stats-heading">
+        <div class="sub" data-i18n="stats_sub">Our Achievements</div>
+        <h2 data-i18n-html="stats_title">We are proud of<br/>our <cite>achievements</cite></h2>
+        <div class="h-gap" style="justify-content:flex-start;"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="stats-text">
+        <p data-i18n="stats_text1">Leveraging over two decades of experience in the energy sector and commercial law, EnerLex has built its reputation as a trusted partner of international institutions.</p>
+      </div>
+      <div class="stats-text">
+        <p data-i18n="stats_text2">Our specific expertise covers energy market reform, governance of public companies and privatization — with all their international legal complexity.</p>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num" data-target="23">0+</div>
+        <div class="stat-label" data-i18n="stat1_label">Years of Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="150">0+</div>
+        <div class="stat-label" data-i18n="stat2_label">Projects Completed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="3">0</div>
+        <div class="stat-label" data-i18n="stat3_label">International Institutions</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="5">0</div>
+        <div class="stat-label" data-i18n="stat4_label">Partner Countries</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="section-contact" class="contact-section">
+  <div class="inner">
+    <div class="contact-grid">
+      <div>
+        <div class="contact-sub" data-i18n="contact_sub">Contact Us</div>
+        <h2 class="contact-h2" data-i18n-html="contact_title">Feel free to reach out,<br/>we are <cite>here</cite> for you</h2>
+        <div class="h-gap" style="margin-top:20px;"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div class="contact-info-text">Rr. 'Sylejman Vokshi' nr.17, k.2 nr.5<br/>10000 Prishtinë, Kosovë</div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📞</div>
+          <div class="contact-info-text"><a href="tel:+38344308830" style="color:inherit; text-decoration:none;">+383 44 308 830</a></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">🌐</div>
+          <div class="contact-info-text">www.enerlex-ks.com</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-row">
+        <input type="text" class="form-input" data-i18n-placeholder="placeholder_firstname" placeholder="First Name.."/>
+        <input type="text" class="form-input" data-i18n-placeholder="placeholder_lastname" placeholder="Last Name.."/>
+        <input type="email" class="form-input" data-i18n-placeholder="placeholder_email" placeholder="Email Address.."/>
+      </div>
+      <textarea class="form-input form-textarea" data-i18n-placeholder="placeholder_message" placeholder="Message.."></textarea>
+      <button class="btn-submit" type="button" data-i18n="btn_send">Send</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a class="footer-logo-link" href="#">Ener<span>Lex</span></a>
+      <p class="footer-desc" data-i18n="footer_desc">We provide specialized legal services for the energy sector as a trusted partner of international financial institutions and strategic investors.</p>
+      <ul class="footer-contact-list">
+        <li><span>📞</span><span>+383 44 308 830</span></li>
+        <li><span>🌐</span><span>www.enerlex-ks.com</span></li>
+        <li><span>📍</span><span>Rr. 'Sylejman Vokshi' nr.17, k.2 nr.5, 10000 Prishtinë</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-widget-title" data-i18n="footer_links">Links</div>
+      <ul class="footer-links">
+        <li><a href="#section-home" data-i18n="nav_home">Home</a></li>
+        <li><a href="#section-services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#section-stats" data-i18n="nav_about">About Us</a></li>
+        <li><a href="#section-contact" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-widget-title" data-i18n="footer_services_title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#" data-i18n="footer_svc1">Contract Drafting</a></li>
+        <li><a href="#" data-i18n="footer_svc2">Due Diligence</a></li>
+        <li><a href="#" data-i18n="footer_svc3">Legal Analysis</a></li>
+        <li><a href="#" data-i18n="footer_svc4">Energy Market</a></li>
+        <li><a href="#" data-i18n="footer_svc5">Corporate Governance</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-widget-title" data-i18n="footer_expertise">Expertise</div>
+      <ul class="footer-links">
+        <li><a href="#">KfW · EBRD · World Bank</a></li>
+        <li><a href="#" data-i18n="footer_exp1">Primary Legislation</a></li>
+        <li><a href="#" data-i18n="footer_exp2">International PPA Markets</a></li>
+        <li><a href="#">OECD Standards</a></li>
+        <li><a href="#" data-i18n="footer_exp3">Inter-TSO Agreements</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">2026 &copy; EnerLex — All rights reserved</div>
+    <div class="footer-social">
+      <a href="#">in</a>
+      <a href="#">f</a>
+      <a href="#">tw</a>
+    </div>
+  </div>
+</footer>
+
+<a href="#section-home" class="scroll-top" id="scroll-top">↑</a>
+
+<!-- ─── SCRIPTS ─── -->
+<script>
+
+/* ════════════════════════════════════════
+   TRANSLATIONS
+════════════════════════════════════════ */
+const translations = {
+  EN: {
+    nav_home: "Home",
+    nav_services: "Services",
+    nav_about: "About",
+    nav_contact: "Contact",
+    btn_consult: "Konsulto Tani",
+    btn_contact: "Contact Us Today",
+    btn_consult_now: "Consult Now",
+    btn_send: "Send",
+
+    slide1_eyebrow: "Welcome to EnerLex",
+    slide1_title: "We develop end-to-end<br/>legal and operational<br/><cite>frameworks</cite>",
+    slide2_eyebrow: "Energy & Law Expertise",
+    slide2_title: "Bridging financial requirements<br/>with <cite>legal feasibility</cite>",
+    slide3_eyebrow: "23+ Years of Experience",
+    slide3_title: "Negotiating complex<br/>international <cite>PPA</cite><br/>contracts",
+
+    pillar1_title: "Regulatory Design",
+    pillar1_text: "We develop end-to-end legal and operational frameworks, drafting primary and secondary legislation to ensure energy projects are future-proof and built for the long term.",
+    pillar2_title: "Commercial & Legal Navigation",
+    pillar2_text: "We bridge the gap between financial requirements and legal feasibility through precise negotiation of complex international agreements and large-scale infrastructure contracts.",
+    pillar3_title: "Law & Energy Innovation",
+    pillar3_text: "By merging deep regulatory knowledge with power market expertise, we eliminate the friction between industrial progress and compliance, creating a seamless path for technical operations.",
+
+    services_sub: "Our Services",
+    services_title: "Strategic Advisory &amp; <cite>Legal Excellence</cite>",
+
+    svc1_title: "Drafting of Agreements & Complex Commercial Contracts",
+    svc1_text: "Specializing in the architectural design and negotiation of high-stakes commercial agreements, ranging from international power purchase agreements (PPAs) to intricate inter-TSO operational arrangements. We ensure that every contract is legally resilient, commercially viable, and strategically aligned with the objectives of investors and business entities.",
+    svc2_title: "Comprehensive Legal Due Diligence & Risk Assessment",
+    svc2_text: "Conducting comprehensive legal due diligence for large-scale energy infrastructure, institutional restructuring, and cross-border projects. We leverage over 23 years of experience to identify regulatory and operational risks, ensuring projects meet the stringent requirements of international financing institutions (KfW, EBRD, World Bank) and regional regulatory bodies.",
+    svc3_title: "Strategic Legal Analysis & Legislative Drafting",
+    svc3_text: "Providing expert legal analysis on complex regulatory issues and disputes. We specialize in the conceptualization and drafting of primary and secondary legislation.",
+    svc4_title: "Market Intelligence & Feasibility Research",
+    svc4_text: "Conducting specialized legal research, feasibility studies, and market evaluations within the energy and commercial sectors. We identify operational risks and strategic opportunities, with a particular focus on electricity market integration and the business environment for international enterprises.",
+    svc5_title: "Corporate Governance & Managerial Consulting",
+    svc5_text: "Offering specialized managerial consulting and professional training focused on institutional integrity, ethics, and corporate governance. We serve as authorized representatives for entities during their establishment and registration, implementing international principles (such as OECD standards) to ensure seamless and ethical business activity.",
+    learn_more: "Learn More →",
+    years_exp: "Years of Experience",
+
+    stats_sub: "Our Achievements",
+    stats_title: "We are proud of<br/>our <cite>achievements</cite>",
+    stats_text1: "Leveraging over two decades of experience in the energy sector and commercial law, EnerLex has built its reputation as a trusted partner of international institutions.",
+    stats_text2: "Our specific expertise covers energy market reform, governance of public companies and privatization — with all their international legal complexity.",
+    stat1_label: "Years of Experience",
+    stat2_label: "Projects Completed",
+    stat3_label: "International Institutions",
+    stat4_label: "Partner Countries",
+
+    contact_sub: "Contact Us",
+    contact_title: "Feel free to reach out,<br/>we are <cite>here</cite> for you",
+    placeholder_firstname: "First Name..",
+    placeholder_lastname: "Last Name..",
+    placeholder_email: "Email Address..",
+    placeholder_message: "Message..",
+
+    footer_desc: "We provide specialized legal services for the energy sector as a trusted partner of international financial institutions and strategic investors.",
+    footer_links: "Links",
+    footer_services_title: "Services",
+    footer_expertise: "Expertise",
+    footer_svc1: "Contract Drafting",
+    footer_svc2: "Due Diligence",
+    footer_svc3: "Legal Analysis",
+    footer_svc4: "Energy Market",
+    footer_svc5: "Corporate Governance",
+    footer_exp1: "Primary Legislation",
+    footer_exp2: "International PPA Markets",
+    footer_exp3: "Inter-TSO Agreements",
+  },
+
+  SQ: {
+    nav_home: "Kryefaqja",
+    nav_services: "Shërbimet",
+    nav_about: "Rreth Nesh",
+    nav_contact: "Kontakt",
+    btn_consult: "Konsulto Tani",
+    btn_contact: "Na Kontaktoni Sot",
+    btn_consult_now: "Konsulto Tani",
+    btn_send: "Dërgo",
+
+    slide1_eyebrow: "Mirë se vini në EnerLex",
+    slide1_title: "Ne zhvillojmë korniza të plota<br/>ligjore dhe operacionale<br/><cite>end-to-end</cite>",
+    slide2_eyebrow: "Ekspertizë në Ligj & Energji",
+    slide2_title: "Duke lidhur kërkesat financiare<br/>me <cite>realizueshmërinë ligjore</cite>",
+    slide3_eyebrow: "23+ Vite Përvojë",
+    slide3_title: "Duke negociuar kontrata<br/>komplekse ndërkombëtare <cite>PPA</cite><br/>",
+
+    pillar1_title: "Dizajni Rregullator",
+    pillar1_text: "Ne zhvillojmë korniza të plota ligjore dhe operacionale end-to-end, duke hartuar legjislacion primar dhe sekondar për të siguruar që projektet energjetike të jenë të qëndrueshme dhe të orientuara drejt afatgjatësisë.",
+    pillar2_title: "Navigimi Komercial & Ligjor",
+    pillar2_text: "Ne lidhim hendekun ndërmjet kërkesave financiare dhe realizueshmërisë ligjore përmes negocimit të saktë të marrëveshjeve komplekse ndërkombëtare dhe kontratave të infrastrukturës në shkallë të gjerë.",
+    pillar3_title: "Inovacioni në Ligj & Energji",
+    pillar3_text: "Duke ndërthurur njohuri të thella rregullatore me ekspertizë në tregun e energjisë, eliminojmë pengesat ndërmjet progresit industrial dhe përputhshmërisë ligjore, duke krijuar një rrugë të qartë dhe funksionale për operacionet teknike.",
+
+    services_sub: "Shërbimet Tona",
+    services_title: "Këshillim Strategjik &amp; <cite>Ekselencë Ligjore</cite>",
+
+    svc1_title: "Hartimi i Marrëveshjeve & Kontratave Komerciale",
+    svc1_text: "Specializohemi në përcaktimin e kornizës dhe negocimin e marrëveshjeve komerciale, duke filluar nga marrëveshjet ndërkombëtare për blerjen e energjisë (PPA) deri te marrëveshjet për zhvillimin dhe zbatimin e projekteve. Sigurojmë që çdo kontratë të jetë juridikisht e qëndrueshme, komercialisht e realizueshme dhe strategjikisht e harmonizuar me objektivat e investitorëve dhe subjekteve afariste.",
+    svc2_title: "Vlerësim Ligjor Gjithëpërfshirës & Vlerësim i Rrezikut",
+    svc2_text: "Kryejmë vlerësime ligjore (legal due diligence) gjithëpërfshirëse për infrastrukturë energjetike në shkallë të gjerë, ristrukturime institucionale dhe projekte ndërkufitare. Duke u mbështetur në mbi 23 vite përvojë, identifikojmë rreziqet rregullatore dhe operacionale, duke siguruar që projektet të përmbushin kërkesat strikte të institucioneve ndërkombëtare financiare (KfW, EBRD, Banka Botërore) dhe organeve rregullatore.",
+    svc3_title: "Analizë Strategjike Ligjore & Hartim i Legjislacionit",
+    svc3_text: "Ofrojmë analizë të specializuar ligjore për çështje komplekse rregullatore dhe mosmarrëveshje. Specializohemi në konceptimin dhe hartimin e legjislacionit primar dhe sekondar.",
+    svc4_title: "Inteligjencë Tregu & Studime Fizibiliteti",
+    svc4_text: "Zhvillojmë kërkime ligjore të specializuara, studime fizibiliteti dhe vlerësime të tregut në sektorët e energjisë dhe tregtisë. Identifikojmë rreziqet operacionale dhe mundësitë strategjike, me fokus të veçantë në integrimin e tregut të energjisë elektrike dhe mjedisin afarist për ndërmarrjet ndërkombëtare.",
+    svc5_title: "Qeverisje Korporative & Konsulencë Menaxheriale",
+    svc5_text: "Ofrojmë konsulencë të specializuar menaxheriale dhe trajnime profesionale të fokusuara në integritet institucional, etikë dhe qeverisje korporative. Veprojmë si përfaqësues të autorizuar për subjektet gjatë themelimit dhe regjistrimit të tyre, duke zbatuar parime ndërkombëtare (si standardet e OECD) për të siguruar një aktivitet afarist të qëndrueshëm dhe etik.",
+    learn_more: "Mëso Më Shumë →",
+    years_exp: "Vite Përvojë",
+
+    stats_sub: "Arritjet Tona",
+    stats_title: "Jemi krenarë për<br/><cite>arritjet tona</cite>",
+    stats_text1: "Duke shfrytëzuar mbi dy dekada përvojë në sektorin e energjisë dhe të drejtës komerciale, EnerLex ka ndërtuar reputacionin e saj si partner i besueshëm i institucioneve ndërkombëtare.",
+    stats_text2: "Ekspertiza jonë specifike mbulon reformën e tregut të energjisë, qeverisjen e ndërmarrjeve publike dhe privatizimin — me gjithë kompleksitetin e tyre ligjor ndërkombëtar.",
+    stat1_label: "Vite Përvojë",
+    stat2_label: "Projekte të Përfunduara",
+    stat3_label: "Institucione Ndërkombëtare",
+    stat4_label: "Vendet Partnere",
+
+    contact_sub: "Na Kontaktoni",
+    contact_title: "Mos hezitoni të na kontaktoni,<br/>jemi <cite>këtu</cite> për ju",
+    placeholder_firstname: "Emri..",
+    placeholder_lastname: "Mbiemri..",
+    placeholder_email: "Adresa Email..",
+    placeholder_message: "Mesazhi..",
+
+    footer_desc: "Ne ofrojmë shërbime të specializuara ligjore për sektorin e energjisë si partner i besueshëm i institucioneve financiare ndërkombëtare dhe investitorëve strategjikë.",
+    footer_links: "Lidhje",
+    footer_services_title: "Shërbimet",
+    footer_expertise: "Ekspertiza",
+    footer_svc1: "Hartimi i Kontratave",
+    footer_svc2: "Due Diligence",
+    footer_svc3: "Analizë Ligjore",
+    footer_svc4: "Tregu i Energjisë",
+    footer_svc5: "Qeverisje Korporative",
+    footer_exp1: "Legjislacion Primar",
+    footer_exp2: "Tregjet Ndërkombëtare PPA",
+    footer_exp3: "Marrëveshje Inter-TSO",
+  }
+};
+
+let currentLang = 'EN';
+
+function applyTranslations(lang) {
+  const t = translations[lang];
+  if (!t) return;
+
+  // data-i18n — textContent
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  // data-i18n-html — innerHTML
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+
+  // data-i18n-placeholder — placeholder
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+}
+
+/* ════════════════════════════════════════
+   SLIDER
+════════════════════════════════════════ */
+const slides = document.querySelectorAll('.slide');
+const dots   = document.querySelectorAll('.dot');
+let current  = 0;
+let timer;
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  slides[current].querySelectorAll('.layer-eyebrow,.layer-title,.layer-btn').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight;
+    el.style.animation = '';
+  });
+  current = (n + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => goTo(current + 1), 9000);
+}
+
+document.getElementById('next-btn').addEventListener('click', () => { goTo(current+1); startTimer(); });
+document.getElementById('prev-btn').addEventListener('click', () => { goTo(current-1); startTimer(); });
+dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.index); startTimer(); }));
+startTimer();
+
+/* ════════════════════════════════════════
+   HEADER SCROLL
+════════════════════════════════════════ */
+const hw = document.getElementById('header-wrap');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 80) {
+    hw.classList.add('scrolled');
+    hw.classList.remove('transparent');
+  } else {
+    hw.classList.remove('scrolled');
+    hw.classList.add('transparent');
+  }
+  document.getElementById('scroll-top').classList.toggle('show', window.scrollY > 400);
+});
+
+/* ════════════════════════════════════════
+   COUNTER
+════════════════════════════════════════ */
+function animateCount(el, target, suffix) {
+  let start = 0;
+  const step = Math.ceil(target / 60);
+  const interval = setInterval(() => {
+    start += step;
+    if (start >= target) { start = target; clearInterval(interval); }
+    el.textContent = start + suffix;
+  }, 30);
+}
+
+const statsObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const nums = e.target.querySelectorAll('[data-target]');
+    nums.forEach(n => {
+      const t = +n.dataset.target;
+      const suffix = n.textContent.includes('+') ? '+' : '';
+      animateCount(n, t, suffix);
+    });
+    statsObserver.unobserve(e.target);
+  });
+}, {threshold: 0.3});
+
+const statsSection = document.querySelector('.stats-section');
+if (statsSection) statsObserver.observe(statsSection);
+
+/* ════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════ */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, {threshold: 0.1});
+
+document.querySelectorAll('.service-card, .fancybox-item, .stat-item').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(28px)';
+  el.style.transition = `opacity 0.6s ${i * 0.08}s ease, transform 0.6s ${i * 0.08}s ease`;
+  revealObserver.observe(el);
+});
+
+/* ════════════════════════════════════════
+   LANGUAGE SWITCHER
+════════════════════════════════════════ */
+const langSwitcher = document.getElementById('langSwitcher');
+const langBtn      = document.getElementById('langBtn');
+const activeFlag   = document.getElementById('activeFlag');
+const activeLang   = document.getElementById('activeLang');
+
+function setLangUI(code) {
+  const opt = document.querySelector(`.lang-option[data-code="${code}"]`);
+  if (opt) {
+    document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+    activeFlag.textContent = opt.dataset.flag;
+    activeLang.textContent = code;
+  }
+  currentLang = code;
+  localStorage.setItem('enerlex_lang', code);
+  applyTranslations(code);
+}
+
+langBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  langSwitcher.classList.toggle('open');
+});
+
+document.querySelectorAll('.lang-option').forEach(opt => {
+  opt.addEventListener('click', e => {
+    e.preventDefault();
+    langSwitcher.classList.remove('open');
+    setLangUI(opt.dataset.code);
+  });
+});
+
+document.addEventListener('click', () => langSwitcher.classList.remove('open'));
+
+// Lexo gjuhën: URL param ka prioritet, pastaj localStorage
+const urlLang = new URLSearchParams(window.location.search).get('lang');
+const savedLang = urlLang || localStorage.getItem('enerlex_lang') || 'EN';
+setLangUI(savedLang);
+
+</script>
+</body>
+</html>

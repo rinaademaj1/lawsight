@@ -1,0 +1,1 @@
+jQuery(document).ready(function(e){var t="<style>";e(document).find("div.ct-inline-css").each(function(){var n=e(this);t+=n.attr("data-css")+" ",n.remove()}),t+="</style>",e("head").append(t)})
